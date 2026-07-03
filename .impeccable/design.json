@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-02T00:00:00+08:00",
+  "title": "Design System: Yilin Cai Personal Portfolio",
+  "extensions": {
+    "northStar": "Sky Lab Portfolio",
+    "colorMeta": {
+      "sky": {
+        "role": "primary",
+        "displayName": "Open Sky Blue",
+        "canonical": "#1389d8",
+        "tonalRamp": ["#0b82d4", "#1389d8", "#16a8ed", "#bfeeff"]
+      },
+      "lime": {
+        "role": "secondary",
+        "displayName": "Signal Lime",
+        "canonical": "#d8ff64",
+        "tonalRamp": ["#cdfc56", "#d8ff64", "#efffba"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink Black",
+        "canonical": "#161719",
+        "tonalRamp": ["#161719", "#62666b", "#f2f5f8", "#f7f8fa", "#ffffff"]
+      }
+    },
+    "motion": {
+      "ease": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "fadeUp": {
+        "from": { "opacity": 0, "y": 34 },
+        "to": { "opacity": 1, "y": 0 },
+        "duration": "720ms"
+      },
+      "stagger": {
+        "children": "120ms",
+        "delayChildren": "80ms"
+      },
+      "modal": {
+        "enter": "opacity + scale 0.96 to 1 + y 12 to 0 over 280ms",
+        "exit": "opacity + scale 0.97 + y 8 over 200ms"
+      },
+      "reducedMotion": "Disable transform-heavy movement and keep content visible by default."
+    },
+    "elevation": {
+      "navFloat": "0 18px 55px rgba(20, 32, 44, 0.10)",
+      "cardFloat": "0 24px 70px rgba(20, 32, 44, 0.08)",
+      "cardHover": "0 30px 90px rgba(20, 32, 44, 0.14)",
+      "heroGlow": "0 28px 90px rgba(20, 32, 44, 0.12)",
+      "modalLift": "0 34px 120px rgba(20, 32, 44, 0.25)"
+    },
+    "componentNotes": {
+      "floatingProofCards": "Use 4-7 real portfolio proof cards in hero or key sections; avoid fake SaaS metrics.",
+      "growthMap": "Internship map cards should summarize product, problem, contribution, and value.",
+      "projectTiles": "Prefer image-first case-study cards with varied weight over identical repeated cards."
+    },
+    "rules": {
+      "limeSignalRule": "Use lime for buttons, active states, dots, and keywords only; keep it rare.",
+      "skyFirstRule": "Use sky blue for immersive first impression, then let white and gray surfaces carry portfolio content.",
+      "airNotGlassRule": "Use transparency and blur only for sky/floating depth, not decorative glassmorphism.",
+      "oneBigSentenceRule": "Each major section gets one dominant statement; supporting detail moves into cards."
+    }
+  }
+}
