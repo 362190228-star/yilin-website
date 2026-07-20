@@ -1,459 +1,306 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowDown, Check, Copy, X } from "lucide-react";
+import { ArrowRight, Check, Copy, X } from "lucide-react";
 import { contacts, internships, navItems, profile, projects } from "./data/content";
-import { ease, fadeUp, modalMotion, stagger } from "./data/motion";
+import { ease, modalMotion } from "./data/motion";
 import "./styles.css";
 
-function useActiveSection(sectionIds) {
-  const [activeSection, setActiveSection] = useState(sectionIds[0]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-
-        if (visible[0]) {
-          setActiveSection(visible[0].target.id);
-        }
-      },
-      { threshold: [0.35, 0.55, 0.72], rootMargin: "-16% 0px -20% 0px" },
-    );
-
-    sectionIds.forEach((id) => {
-      const section = document.getElementById(id);
-      if (section) observer.observe(section);
-    });
-
-    return () => observer.disconnect();
-  }, [sectionIds]);
-
-  return activeSection;
-}
+const videoSrc =
+  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260717_120352_eb988725-1351-43b3-8095-16e4a1005e3d.mp4";
 
 function scrollToSection(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-function NavBar() {
-  const sectionIds = useMemo(() => navItems.map((item) => item.id), []);
-  const activeSection = useActiveSection(sectionIds);
-
+function VortexLogo() {
   return (
-    <header className="fixed left-1/2 top-5 z-40 w-[min(760px,calc(100vw-32px))] -translate-x-1/2">
-      <nav className="glass-nav mx-auto flex h-14 items-center justify-between gap-2 rounded-nav px-3 shadow-nav backdrop-blur-2xl">
-        <button
-          type="button"
-          onClick={() => scrollToSection("hero")}
-          className="hidden rounded-full px-4 py-2 text-sm font-semibold tracking-tight text-ink transition hover:bg-white/70 sm:block"
-        >
-          Yilin Cai
-        </button>
-        <div className="flex w-full items-center justify-between gap-1 sm:w-auto">
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => scrollToSection(item.id)}
-              className={`relative rounded-full px-3 py-2 text-sm transition duration-300 ease-smooth sm:px-4 ${
-                activeSection === item.id ? "text-ink" : "text-muted hover:text-ink"
-              }`}
-            >
-              {activeSection === item.id && (
-                <motion.span
-                  layoutId="active-nav"
-                  className="absolute inset-0 rounded-full bg-white shadow-[0_8px_26px_rgba(20,32,44,0.08)]"
-                  transition={{ duration: 0.28, ease }}
-                />
-              )}
-              <span className="relative z-10">{item.label}</span>
-            </button>
-          ))}
-        </div>
-      </nav>
-    </header>
+    <svg viewBox="0 0 256 256" className="h-14 w-14 fill-white md:h-16 md:w-16" aria-hidden="true">
+      <path d="M128 28a72 72 0 0 0-72 72h72V28Z" />
+      <path d="M228 128a72 72 0 0 0-72-72v72h72Z" />
+      <path d="M128 228a72 72 0 0 0 72-72h-72v72Z" />
+      <path d="M28 128a72 72 0 0 0 72 72v-72H28Z" />
+      <circle cx="128" cy="128" r="28" />
+    </svg>
   );
 }
 
-function Section({ id, className = "", children }) {
+function Navbar() {
   return (
-    <section id={id} className={`section-shell ${className}`}>
-      {children}
-    </section>
+    <nav className="relative z-10 flex items-center justify-between px-6 pt-6 md:px-10 md:pt-8">
+      <button
+        type="button"
+        onClick={() => scrollToSection("hero")}
+        className="anim-stagger flex flex-col items-center text-left"
+        style={{ animationDelay: "0.1s" }}
+        aria-label="返回首页"
+      >
+        <VortexLogo />
+        <span className="mt-1 text-[10px] font-light tracking-[0.4em] text-white md:text-xs">Y I L I N</span>
+      </button>
+      <div className="anim-stagger flex items-center gap-3" style={{ animationDelay: "0.2s" }}>
+        {navItems.slice(1, 4).map((item, index) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => scrollToSection(item.id)}
+            className={index === 2 ? "hidden px-5 py-2.5 text-sm text-black transition-colors hover:bg-white/90 md:block btn-cut bg-white" : "hidden px-5 py-2.5 text-sm text-white transition-colors hover:bg-white/10 md:block btn-cut-border"}
+          >
+            <span>{item.label}</span>
+          </button>
+        ))}
+      </div>
+    </nav>
   );
 }
 
 function Hero() {
   return (
-    <Section id="hero" className="flex items-center justify-center bg-canvas p-2 text-center">
-      <motion.div
-        variants={stagger}
-        initial="hidden"
-        animate="visible"
-        className="hero-sky relative isolate flex min-h-[calc(100vh-1rem)] w-full max-w-[1840px] items-center justify-center overflow-hidden rounded-[28px] shadow-[0_18px_48px_rgba(20,32,44,0.10)] sm:rounded-[38px]"
-      >
-        <div className="relative z-10 flex flex-col items-center">
-          <motion.h1
-            variants={fadeUp}
-            className="font-display text-[clamp(6rem,14vw,9rem)] font-semibold leading-[0.86] tracking-[-0.04em] text-ink/82 drop-shadow-[0_12px_28px_rgba(255,255,255,0.45)]"
-          >
-            Hello!
-          </motion.h1>
-          <motion.p
-            variants={fadeUp}
-            className="mt-7 text-[clamp(1.65rem,2.5vw,2.8rem)] font-medium tracking-[-0.03em] text-ink/72 drop-shadow-[0_10px_22px_rgba(255,255,255,0.42)]"
-          >
-            I'm Yilin
-          </motion.p>
-          <motion.button
-            variants={fadeUp}
-            animate={{ y: [0, -8, 0] }}
-            transition={{ y: { duration: 2.3, repeat: Infinity, ease: "easeInOut" } }}
-            type="button"
-            aria-label="滚动到关于"
-            onClick={() => scrollToSection("about")}
-            className="mt-16 grid size-14 place-items-center rounded-full bg-ink/72 text-white shadow-[0_12px_28px_rgba(7,85,139,0.18)] backdrop-blur-xl transition hover:scale-105 hover:bg-white hover:text-ink"
-          >
-            <ArrowDown size={22} />
-          </motion.button>
+    <section id="hero" className="h-screen w-full bg-black p-3 font-inter md:p-4">
+      <div className="relative flex h-full w-full flex-col overflow-hidden rounded-2xl bg-black">
+        <video
+          src={videoSrc}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="anim-fade absolute inset-0 h-full w-full object-cover"
+          style={{ animationDelay: "0.2s" }}
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_24%,rgba(255,255,255,0.18),transparent_22rem),linear-gradient(180deg,rgba(0,0,0,0.18),rgba(0,0,0,0.70))]" />
+        <Navbar />
+        <div className="relative z-10 flex flex-1 flex-col justify-between px-6 pb-8 md:px-10 md:pb-10">
+          <div className="relative flex flex-1 items-center">
+            <div className="anim-stagger absolute left-0 top-[18%] hidden flex-col gap-6 lg:flex" style={{ animationDelay: "0.4s" }}>
+              <p className="max-w-[240px] text-base leading-relaxed text-white/80">
+                交互设计研究生<br />AI 产品体验<br />智能体交互探索
+              </p>
+              <div className="mt-4 flex flex-col gap-2">
+                <div className="flex items-center gap-1">
+                  <span className="h-4 w-4 rounded-full border border-white/40" />
+                  <span className="h-4 w-4 rounded-full border border-white/40" />
+                </div>
+                <div className="mt-2 flex items-center gap-2">
+                  <span className="text-xs text-white/70">AI Native<br />UX Designer</span>
+                  <span className="text-xs text-white/50">01</span>
+                </div>
+              </div>
+            </div>
+            <div className="anim-stagger w-full text-center" style={{ animationDelay: "0.5s" }}>
+              <p className="mb-5 text-xs font-medium uppercase tracking-[0.5em] text-white/70">{profile.school}</p>
+              <h1
+                className="text-3xl font-normal leading-[1.1] tracking-[-0.04em] text-white sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl"
+                style={{ textShadow: "0 2px 12px rgba(0,0,0,0.25)" }}
+              >
+                AI Native<br />UX Designer<br />{profile.name}
+              </h1>
+            </div>
+          </div>
+          <div className="mt-8 grid grid-cols-1 items-center gap-6 md:grid-cols-3">
+            <div className="anim-stagger flex items-center justify-center md:justify-end" style={{ animationDelay: "0.7s" }}>
+              <p className="max-w-[280px] text-center text-sm leading-relaxed text-white md:ml-auto md:text-left">
+                {profile.advantages[0]}
+              </p>
+            </div>
+            <div className="anim-stagger flex flex-col items-center gap-8 md:gap-24" style={{ animationDelay: "0.85s" }}>
+              <span className="text-2xl font-medium text-white md:text-3xl">Human x AI</span>
+              <button
+                type="button"
+                onClick={() => scrollToSection("projects")}
+                className="group flex w-full max-w-[280px] items-center justify-center gap-2 bg-white py-3.5 text-black transition-colors hover:bg-white/90 btn-cut"
+              >
+                <span className="text-sm font-medium">查看作品</span>
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </button>
+            </div>
+            <div className="anim-stagger flex items-center justify-center gap-3 md:justify-end" style={{ animationDelay: "1s" }}>
+              {contacts.slice(0, 3).map((item) => (
+                <button
+                  key={item.label}
+                  type="button"
+                  onClick={() => navigator.clipboard?.writeText(item.value)}
+                  className="flex h-10 w-10 items-center justify-center bg-white text-xs font-semibold text-black transition-colors hover:bg-white/90 btn-cut-sm"
+                  aria-label={item.label}
+                  title={item.label}
+                >
+                  {item.label.slice(0, 1)}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
-      </motion.div>
-    </Section>
+      </div>
+    </section>
+  );
+}
+
+function Section({ id, eyebrow, title, children }) {
+  return (
+    <section id={id} className="immersive-section">
+      <div className="mx-auto w-full max-w-[1520px]">
+        <div className="anim-stagger mb-10" style={{ animationDelay: "0.15s" }}>
+          <p className="cut-eyebrow">{eyebrow}</p>
+          <h2 className="section-title-dark">{title}</h2>
+        </div>
+        {children}
+      </div>
+    </section>
   );
 }
 
 function About() {
-  const hobbyEmojis = {
-    摄影: "📷",
-    做饭: "🍳",
-    养花: "🌱",
-    瑜伽: "🧘",
-  };
-
   return (
-    <Section id="about" className="bg-canvas">
-      <motion.div
-        variants={stagger}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.28 }}
-        className="grid min-h-[calc(100vh-10rem)] items-stretch gap-10 lg:grid-cols-[minmax(320px,0.34fr)_minmax(0,0.66fr)]"
-      >
-        <motion.div variants={fadeUp} className="relative lg:h-full">
-          <div className="portrait-frame">
-            <img src="/assets/yilin-portrait.jpg" alt="蔡艺琳个人照片" />
-          </div>
-        </motion.div>
-        <motion.div variants={fadeUp} className="flex h-full min-w-0 flex-col justify-center">
-          <p className="eyebrow">About Me</p>
-          <h2 className="w-full text-balance text-[clamp(2.8rem,5.2vw,6rem)] font-semibold leading-[0.96] tracking-[-0.04em]">
-            你好，我是蔡艺琳 👋
-          </h2>
-          <p className="mt-6 w-full text-pretty text-base leading-8 text-muted lg:whitespace-nowrap lg:text-[clamp(0.86rem,1vw,1rem)]">
+    <Section id="about" eyebrow="About Me" title={`你好，我是${profile.name}`}>
+      <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
+        <article className="glass-panel overflow-hidden p-0">
+          <img src="/assets/yilin-portrait.jpg" alt="蔡艺琳个人照片" className="h-full min-h-[520px] w-full object-cover object-[50%_36%]" />
+        </article>
+        <div className="grid content-center gap-5">
+          <p className="max-w-4xl text-lg leading-9 text-white/78">
             一名交互设计方向的研究生，关注 AI 产品体验、智能体交互、复杂任务流程优化与视觉表达，目前正在探索如何让 AI 产品更自然、可信。
           </p>
-
-          <div className="mt-10 grid gap-x-10 gap-y-8 lg:grid-cols-[0.72fr_1.28fr]">
-            <InfoBlock title="基本信息">
-              <dl className="grid gap-3">
-                {[
-                  ["学校", profile.school],
-                  ["专业", profile.major],
-                  ["邮箱", profile.email],
-                  ["电话", profile.phone],
-                ].map(([label, value]) => (
-                  <div key={label} className="grid gap-1 sm:grid-cols-[72px_1fr]">
-                    <dt className="text-muted">{label}</dt>
-                    <dd className="min-w-0 break-words font-medium text-ink">{value}</dd>
-                  </div>
-                ))}
-              </dl>
-            </InfoBlock>
-            <InfoBlock title="个人优势">
-              <ul className="grid gap-3 text-sm leading-6 text-muted md:text-base md:leading-7">
-                {profile.advantages.map((item) => (
-                  <li key={item} className="grid grid-cols-[8px_1fr] gap-3">
-                    <span className="mt-3 size-1.5 rounded-full bg-leaf" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </InfoBlock>
-            <InfoBlock title="兴趣爱好" className="lg:col-span-2">
-              <div className="flex flex-wrap gap-3">
-                {profile.hobbies.map((tag) => (
-                  <motion.span
-                    whileHover={{ scale: 1.06, y: -2 }}
-                    transition={{ duration: 0.22, ease }}
-                    key={tag}
-                    className="rounded-full border border-line bg-white px-4 py-2 text-sm font-medium text-muted shadow-[0_10px_30px_rgba(20,32,44,0.04)] transition-colors duration-300 hover:border-transparent hover:bg-[rgba(205,252,86,1)] hover:text-ink"
-                  >
-                    <span className="mr-1.5" aria-hidden="true">
-                      {hobbyEmojis[tag]}
-                    </span>
-                    {tag}
-                  </motion.span>
-                ))}
+          <div className="grid gap-4 md:grid-cols-2">
+            {[
+              ["学校", profile.school],
+              ["专业", profile.major],
+              ["邮箱", profile.email],
+              ["电话", profile.phone],
+            ].map(([label, value]) => (
+              <div key={label} className="glass-panel p-5">
+                <p className="text-xs uppercase tracking-[0.28em] text-white/42">{label}</p>
+                <p className="mt-3 break-words text-lg font-medium text-white">{value}</p>
               </div>
-            </InfoBlock>
+            ))}
           </div>
-        </motion.div>
-      </motion.div>
+          <div className="glass-panel p-6">
+            <p className="mb-5 text-xs uppercase tracking-[0.28em] text-white/42">个人优势</p>
+            <ul className="grid gap-4 text-sm leading-7 text-white/74 md:text-base">
+              {profile.advantages.map((item) => (
+                <li key={item} className="grid grid-cols-[10px_1fr] gap-3">
+                  <span className="mt-3 h-2 w-2 rounded-full bg-white" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
     </Section>
-  );
-}
-
-function InfoBlock({ title, children, className = "" }) {
-  return (
-    <article className={`border-t border-line pt-5 ${className}`}>
-      <h3 className="mb-4 text-base font-semibold tracking-[-0.02em] md:text-lg">{title}</h3>
-      {children}
-    </article>
   );
 }
 
 function Internship() {
   const [active, setActive] = useState(internships[0].id);
+  const activeItem = internships.find((item) => item.id === active) ?? internships[0];
 
   return (
-    <Section id="internship" className="bg-gradient-to-b from-canvas to-white">
-      <motion.div
-        variants={stagger}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        className="flex min-h-[calc(100vh-10rem)] flex-col justify-center"
-      >
-        <motion.div variants={fadeUp} className="max-w-4xl">
-          <p className="eyebrow">Internship Map</p>
-          <h2 className="section-title">📍实习成长地图</h2>
-        </motion.div>
-
-        <motion.div variants={fadeUp} className="mt-12 grid items-stretch gap-6 lg:grid-cols-[1.25fr_0.75fr]">
-          <div className="relative min-h-[560px] overflow-hidden rounded-[28px] bg-white shadow-card">
-            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(22,23,25,.04)_1px,transparent_1px),linear-gradient(0deg,rgba(22,23,25,.04)_1px,transparent_1px)] bg-[size:44px_44px]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_30%,rgba(19,137,216,.20),transparent_18vw),radial-gradient(circle_at_76%_68%,rgba(159,191,113,.22),transparent_17vw)]" />
-            <div className="absolute left-10 top-9 text-[clamp(4rem,8vw,6rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-ink/[0.04]">
-              BEIJING
-              <br />
-              AI UX
-            </div>
-            <svg className="absolute inset-0 h-full w-full" viewBox="0 0 900 560" aria-hidden="true">
-              <path
-                d="M180 175 C320 88 430 265 565 210 S730 280 540 372 C420 438 270 382 350 300"
-                fill="none"
-                stroke="rgba(22,23,25,0.22)"
-                strokeWidth="2"
-                strokeDasharray="8 11"
-                strokeLinecap="round"
-              />
-            </svg>
-            {internships.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => setActive(item.id)}
-                onMouseEnter={() => setActive(item.id)}
-                onFocus={() => setActive(item.id)}
-                className={`map-pin ${item.position} ${active === item.id ? "is-active" : ""}`}
-              >
-                <span>{item.location}</span>
-              </button>
-            ))}
-
-            {internships.map((item) => (
-              <button
-                key={item.label}
-                type="button"
-                onClick={() => setActive(item.id)}
-                onMouseEnter={() => setActive(item.id)}
-                onFocus={() => setActive(item.id)}
-                className={`map-note ${item.notePosition} ${active === item.id ? "is-active" : ""}`}
-              >
-                {item.label}
-              </button>
+    <Section id="internship" eyebrow="Internship Map" title="实习成长地图">
+      <div className="grid gap-6 lg:grid-cols-[0.86fr_1.14fr]">
+        <div className="glass-panel grid gap-3 p-5">
+          {internships.map((item, index) => (
+            <button
+              type="button"
+              key={item.id}
+              onClick={() => setActive(item.id)}
+              onMouseEnter={() => setActive(item.id)}
+              className={`group flex items-center justify-between gap-5 p-5 text-left transition-colors btn-cut ${active === item.id ? "bg-white text-black" : "bg-white/0 text-white hover:bg-white/10"}`}
+            >
+              <span>
+                <span className="block text-xs tracking-[0.28em] opacity-60">0{index + 1}</span>
+                <span className="mt-3 block text-2xl font-medium tracking-[-0.04em]">{item.company}</span>
+                <span className="mt-2 block text-sm opacity-70">{item.date} / {item.location}</span>
+              </span>
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </button>
+          ))}
+        </div>
+        <article className="glass-panel p-6 md:p-8">
+          <p className="text-sm font-medium text-white/58">{activeItem.role}</p>
+          <h3 className="mt-3 text-4xl font-medium leading-none tracking-[-0.04em] text-white md:text-6xl">{activeItem.company}</h3>
+          <p className="mt-6 max-w-3xl text-base leading-8 text-white/72">{activeItem.detail}</p>
+          <div className="mt-8 grid gap-5">
+            {(activeItem.detailSections ?? []).map((section) => (
+              <div key={section.title} className="border-t border-white/14 pt-5">
+                <h4 className="text-xl font-medium leading-snug text-white">{section.title}</h4>
+                <p className="mt-3 text-sm leading-7 text-white/62">{section.background}</p>
+              </div>
             ))}
           </div>
-
-          <div className="relative min-h-[560px] overflow-hidden rounded-[28px] bg-white shadow-card">
-            {internships.map((item, index) => {
-              const isActive = active === item.id;
-              const offset = internships.findIndex((internship) => internship.id === active);
-              return (
-                <motion.article
-                  key={item.id}
-                  animate={{
-                    y: isActive ? 0 : 34 + Math.abs(index - offset) * 24,
-                    scale: isActive ? 1 : 0.94,
-                    opacity: isActive ? 1 : 0.42,
-                    zIndex: isActive ? 3 : 1,
-                  }}
-                  transition={{ duration: 0.34, ease }}
-                  className="absolute inset-0 overflow-y-auto rounded-[28px] bg-white p-7 md:p-9"
-                >
-                  <p className="eyebrow">{item.label}</p>
-                  <h3 className="max-w-2xl whitespace-nowrap text-[clamp(1.9rem,3.1vw,3.3rem)] font-semibold leading-[0.96] tracking-[-0.04em]">
-                    {item.company}
-                    <span className="mx-3 text-muted">-</span>
-                    {item.role}
-                  </h3>
-                  <div className="mt-8 flex flex-wrap gap-3">
-                    <span className="rounded-full bg-canvas px-4 py-2 text-sm font-semibold text-muted">{item.role}</span>
-                    <span className="rounded-full bg-canvas px-4 py-2 text-sm font-semibold text-muted">{item.date}</span>
-                    <span className="rounded-full bg-canvas px-4 py-2 text-sm font-semibold text-muted">{item.location}</span>
-                  </div>
-
-                  <div className="mt-9 grid gap-7 pb-12">
-                    {(item.detailSections ?? []).map((section) => (
-                      <section key={section.title} className="border-t border-line pt-6">
-                        <h4 className="text-xl font-semibold leading-snug tracking-[-0.03em]">{section.title}</h4>
-                        <div className="mt-4 space-y-4 text-[15px] leading-7 text-muted">
-                          <p>
-                            <span className="font-semibold text-ink">项目背景：</span>
-                            {section.background}
-                          </p>
-                          <div>
-                            <p className="font-semibold text-ink">工作职责：</p>
-                            <ol className="mt-2 grid gap-2 pl-5">
-                              {section.responsibilities.map((responsibility, responsibilityIndex) => (
-                                <li key={responsibility} className="list-decimal">
-                                  {responsibility}
-                                </li>
-                              ))}
-                            </ol>
-                          </div>
-                        </div>
-                      </section>
-                    ))}
-                  </div>
-                </motion.article>
-              );
-            })}
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-white to-transparent" />
-          </div>
-        </motion.div>
-      </motion.div>
+        </article>
+      </div>
     </Section>
   );
 }
 
 function Projects({ onOpenProject }) {
   return (
-    <Section id="projects" className="bg-white">
-      <motion.div
-        variants={stagger}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.18 }}
-        className="flex min-h-[calc(100vh-10rem)] flex-col justify-center"
-      >
-        <motion.div variants={fadeUp} className="max-w-4xl">
-          <p className="eyebrow">Selected Works</p>
-          <h2 className="section-title">实习与项目</h2>
-        </motion.div>
-
-        <motion.div variants={fadeUp} className="mt-12 grid gap-6 lg:grid-cols-3">
-          {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} onOpenProject={onOpenProject} />
-          ))}
-        </motion.div>
-      </motion.div>
+    <Section id="projects" eyebrow="Selected Works" title="实习与项目">
+      <div className="grid gap-5 lg:grid-cols-3">
+        {projects.map((project, index) => (
+          <button
+            type="button"
+            key={project.id}
+            onClick={() => onOpenProject(project)}
+            className="anim-stagger group glass-panel overflow-hidden p-0 text-left transition-transform hover:-translate-y-2"
+            style={{ animationDelay: `${0.2 + index * 0.12}s` }}
+          >
+            <div className="aspect-video overflow-hidden bg-white/5">
+              <img src={project.image} alt={`${project.title}项目封面`} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]" />
+            </div>
+            <div className="p-6">
+              <p className="text-sm font-medium text-white/52">{project.category}</p>
+              <h3 className="mt-3 text-3xl font-medium leading-tight tracking-[-0.04em] text-white">{project.title}</h3>
+              <div className="mt-6 flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <span key={tag} className="border border-white/16 px-3 py-1 text-xs text-white/64 btn-cut-sm">{tag}</span>
+                ))}
+              </div>
+            </div>
+          </button>
+        ))}
+      </div>
     </Section>
   );
 }
 
-function ProjectCard({ project, onOpenProject }) {
+function Contact({ onCopy }) {
   return (
-    <motion.button
-      type="button"
-      whileHover={{ y: -8 }}
-      transition={{ duration: 0.28, ease }}
-      onClick={() => onOpenProject(project)}
-      className={`group overflow-hidden rounded-[24px] bg-white p-0 text-left shadow-card transition-shadow duration-300 hover:shadow-hover ${project.size}`}
-    >
-      <div className="flex h-full flex-col">
-        <div className="grid aspect-video place-items-center overflow-hidden bg-[#f2f5f8]">
-          <img
-            src={project.image}
-            alt={`${project.title}项目封面`}
-            className="h-full w-full object-cover transition duration-500 ease-smooth group-hover:scale-[1.04]"
-          />
-        </div>
-        <div className="bg-white p-6 text-ink md:p-7">
-          <p className="mb-3 text-sm font-semibold text-muted">{project.category}</p>
-          <h3 className="text-[clamp(1.55rem,2.2vw,2.55rem)] font-semibold leading-tight tracking-[-0.04em]">
-            {project.title}
-          </h3>
-        </div>
-      </div>
-    </motion.button>
-  );
-}
-
-function Ending({ onCopy }) {
-  return (
-    <Section id="contact" className="flex items-center justify-center bg-canvas p-2">
-      <motion.div
-        variants={stagger}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.24 }}
-        className="contact-scene relative z-10 flex min-h-[calc(100vh-1rem)] w-full max-w-[1840px] flex-col justify-center overflow-hidden rounded-[28px] px-[max(24px,calc((100vw-1520px)/2))] py-[clamp(6rem,9vw,8.5rem)] shadow-[0_18px_48px_rgba(20,32,44,0.10)] sm:rounded-[38px]"
-      >
-        <motion.div variants={fadeUp} className="mx-auto max-w-6xl text-center">
-          <h2 className="text-balance text-[clamp(4rem,10vw,6rem)] font-semibold leading-[0.9] tracking-[-0.04em]">
-            Beyond Design
-          </h2>
-          <p className="mx-auto mt-10 max-w-4xl text-balance text-[clamp(1.45rem,2.3vw,3rem)] font-medium leading-[1.28] tracking-[-0.04em] text-ink/72">
+    <Section id="contact" eyebrow="Contact" title="Beyond Design">
+      <div className="grid gap-6 lg:grid-cols-[1fr_1.1fr]">
+        <div className="glass-panel flex flex-col justify-between p-8 md:p-10">
+          <p className="text-balance text-2xl font-medium leading-snug tracking-[-0.04em] text-white md:text-4xl">
             希望创造自然、可信、富有温度的产品体验，让复杂的技术变得简单，让智能真正服务于人。
           </p>
-        </motion.div>
-
-        <motion.a
-          variants={fadeUp}
-          href={`mailto:${profile.email}`}
-          className="mx-auto mt-10 inline-flex items-center justify-center rounded-full bg-ink px-8 py-3.5 text-base font-semibold text-white shadow-[0_12px_28px_rgba(20,32,44,0.14)]"
-        >
-          聊一聊
-        </motion.a>
-
-        <motion.div variants={fadeUp} className="mx-auto mt-12 grid w-full max-w-5xl gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <a href={`mailto:${profile.email}`} className="mt-10 inline-flex w-full max-w-[280px] items-center justify-center gap-2 bg-white py-3.5 text-black btn-cut">
+            <span className="text-sm font-medium">聊一聊</span>
+            <ArrowRight className="h-4 w-4" />
+          </a>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2">
           {contacts.map((item) => (
-            <button
-              type="button"
-              key={item.label}
-              onClick={() => onCopy(item.value)}
-              className="group rounded-card bg-white/68 p-5 text-left shadow-[0_10px_24px_rgba(20,32,44,0.08)] backdrop-blur-md transition duration-300 hover:-translate-y-2 hover:bg-[rgba(205,252,86,0.92)] hover:shadow-[0_18px_44px_rgba(20,32,44,0.18)] hover:ring-1 hover:ring-ink/10"
-            >
-              <span className="flex items-center justify-between text-sm text-muted">
+            <button type="button" key={item.label} onClick={() => onCopy(item.value)} className="glass-panel p-6 text-left transition-colors hover:bg-white hover:text-black">
+              <span className="flex items-center justify-between text-sm text-current opacity-60">
                 {item.label}
-                <Copy size={15} className="opacity-0 transition group-hover:opacity-100" />
+                <Copy size={15} />
               </span>
-              <strong className="mt-5 block break-words text-base font-semibold tracking-[-0.03em] text-ink">
-                {item.value}
-              </strong>
+              <strong className="mt-6 block break-words text-xl font-medium tracking-[-0.03em] text-current">{item.value}</strong>
             </button>
           ))}
-        </motion.div>
-
-        <motion.footer variants={fadeUp} className="mt-24 flex flex-col justify-between gap-2 border-t border-ink/12 pt-6 text-sm text-ink/62 sm:flex-row">
-          <p>© 2026 Yilin Cai.</p>
-          <p>Designed with care.</p>
-        </motion.footer>
-      </motion.div>
+        </div>
+      </div>
+      <footer className="mt-20 flex flex-col justify-between gap-2 border-t border-white/12 pt-6 text-sm text-white/48 sm:flex-row">
+        <p>© 2026 Yilin Cai.</p>
+        <p>Designed with care.</p>
+      </footer>
     </Section>
   );
 }
 
 function ProjectModal({ project, onClose }) {
-  useEffect(() => {
+  React.useEffect(() => {
     function closeOnEscape(event) {
       if (event.key === "Escape") onClose();
     }
-
     document.body.classList.add("overflow-hidden");
     document.addEventListener("keydown", closeOnEscape);
     return () => {
@@ -464,7 +311,7 @@ function ProjectModal({ project, onClose }) {
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 grid place-items-center bg-ink/24 p-4 backdrop-blur-xl"
+      className="fixed inset-0 z-50 grid place-items-center bg-black/60 p-4 backdrop-blur-xl"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -480,37 +327,18 @@ function ProjectModal({ project, onClose }) {
         role="dialog"
         aria-modal="true"
         aria-label={`${project.title}项目详情`}
-        className="relative h-[85vh] w-[min(80vw,1280px)] overflow-hidden rounded-[28px] bg-white/95 shadow-[0_28px_72px_rgba(20,32,44,0.22)] backdrop-blur-2xl max-lg:w-[92vw]"
+        className="relative h-[85vh] w-[min(80vw,1280px)] overflow-hidden rounded-2xl bg-black shadow-[0_28px_72px_rgba(0,0,0,0.42)] max-lg:w-[92vw]"
       >
-        <button
-          type="button"
-          aria-label="关闭项目详情"
-          onClick={onClose}
-          className="absolute right-5 top-5 z-10 grid size-11 place-items-center rounded-full bg-white/80 text-ink shadow-card transition hover:scale-105 hover:bg-white"
-        >
+        <button type="button" aria-label="关闭项目详情" onClick={onClose} className="absolute right-5 top-5 z-10 grid h-11 w-11 place-items-center bg-white text-black transition hover:bg-white/90 btn-cut-sm">
           <X size={20} />
         </button>
-        <div className="h-full overflow-y-auto">
-          <div className="grid gap-1 px-1 pb-1">
-            {project.detailImages?.length
-              ? project.detailImages.map((image, index) => (
-                  <figure key={image} className="overflow-hidden rounded-[24px] bg-[#f2f5f8]">
-                    <img
-                      src={image}
-                      alt={`${project.title}详情图 ${String(index + 1).padStart(2, "0")}`}
-                      className="block h-auto w-full"
-                      loading="lazy"
-                    />
-                  </figure>
-                ))
-              : Array.from({ length: 5 }).map((_, index) => (
-                  <div
-                    key={index}
-                    className="grid aspect-video place-items-center rounded-[24px] bg-[linear-gradient(135deg,rgba(19,137,216,.10),rgba(159,191,113,.08)),#f2f5f8] text-[clamp(2rem,4vw,5rem)] font-semibold tracking-[-0.04em] text-ink/30"
-                  >
-                    Project Image {String(index + 1).padStart(2, "0")}
-                  </div>
-                ))}
+        <div className="h-full overflow-y-auto p-1">
+          <div className="grid gap-1">
+            {project.detailImages?.map((image, index) => (
+              <figure key={image} className="overflow-hidden rounded-xl bg-white/5">
+                <img src={image} alt={`${project.title}详情图 ${String(index + 1).padStart(2, "0")}`} className="block h-auto w-full" loading="lazy" />
+              </figure>
+            ))}
           </div>
         </div>
       </motion.section>
@@ -527,7 +355,7 @@ function Toast({ visible }) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 12 }}
           transition={{ duration: 0.22, ease }}
-          className="fixed bottom-7 right-7 z-[60] flex items-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-medium text-white shadow-hover"
+          className="fixed bottom-7 right-7 z-[60] flex items-center gap-2 bg-white px-5 py-3 text-sm font-medium text-black shadow-[0_18px_44px_rgba(0,0,0,0.22)] btn-cut"
           role="status"
           aria-live="polite"
         >
@@ -557,20 +385,18 @@ function App() {
       document.execCommand("copy");
       document.body.removeChild(input);
     }
-
     setToastVisible(true);
     window.setTimeout(() => setToastVisible(false), 1500);
   }
 
   return (
     <>
-      <NavBar />
       <main>
         <Hero />
         <About />
         <Internship />
         <Projects onOpenProject={setActiveProject} />
-        <Ending onCopy={handleCopy} />
+        <Contact onCopy={handleCopy} />
       </main>
       <AnimatePresence>{activeProject && <ProjectModal project={activeProject} onClose={() => setActiveProject(null)} />}</AnimatePresence>
       <Toast visible={toastVisible} />

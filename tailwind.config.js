@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,jsx}"],
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       colors: {
@@ -24,6 +24,7 @@ export default {
         nav: "0 14px 34px rgba(20, 32, 44, 0.10)",
       },
       fontFamily: {
+        inter: ["Inter", "sans-serif"],
         sans: [
           "Inter",
           "Noto Sans SC",

@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: light;
-  background: #f7f8fa;
+  color-scheme: dark;
+  background: #000000;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -17,18 +17,16 @@
 
 html {
   scroll-behavior: smooth;
+  background: #000000;
 }
 
 body {
   min-width: 320px;
   margin: 0;
   overflow-x: hidden;
-  background:
-    radial-gradient(circle at 80% 14%, rgba(19, 137, 216, 0.08), transparent 28vw),
-    radial-gradient(circle at 12% 42%, rgba(159, 191, 113, 0.06), transparent 24vw),
-    #f7f8fa;
-  color: #161719;
-  font-family: "Inter", "Noto Sans SC", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #000000;
+  color: #ffffff;
+  font-family: "Inter", sans-serif;
 }
 
 button,
@@ -41,215 +39,145 @@ button {
 }
 
 ::selection {
-  background: rgba(19, 137, 216, 0.2);
+  background: rgba(255, 255, 255, 0.24);
 }
 
-@layer components {
-  .section-shell {
-    min-height: 100vh;
-    padding: clamp(6rem, 9vw, 8.5rem) max(24px, calc((100vw - 1520px) / 2));
-  }
+.btn-cut {
+  clip-path: polygon(
+    12px 0%, calc(100% - 12px) 0%, 100% 12px, 100% calc(100% - 12px),
+    calc(100% - 12px) 100%, 12px 100%, 0% calc(100% - 12px), 0% 12px
+  );
+}
 
-  .content-grid {
-    display: grid;
-    grid-template-columns: minmax(180px, 0.34fr) minmax(0, 0.66fr);
-    gap: clamp(3.5rem, 7vw, 9rem);
-  }
+.btn-cut-border {
+  position: relative;
+  background: white;
+  clip-path: polygon(
+    12px 0%, calc(100% - 12px) 0%, 100% 12px, 100% calc(100% - 12px),
+    calc(100% - 12px) 100%, 12px 100%, 0% calc(100% - 12px), 0% 12px
+  );
+}
 
-  .eyebrow {
-    margin-bottom: 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    color: #62666b;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
+.btn-cut-border::before {
+  position: absolute;
+  inset: 1px;
+  z-index: 0;
+  background: black;
+  clip-path: polygon(
+    11px 0%, calc(100% - 11px) 0%, 100% 11px, 100% calc(100% - 11px),
+    calc(100% - 11px) 100%, 11px 100%, 0% calc(100% - 11px), 0% 11px
+  );
+  content: "";
+}
 
-  .eyebrow::before {
-    display: inline-block;
-    width: 0.45rem;
-    height: 0.45rem;
-    border-radius: 999px;
-    background: #d8ff64;
-    box-shadow: 0 0 0 5px rgba(216, 255, 100, 0.2);
-    content: "";
-  }
+.btn-cut-border > * {
+  position: relative;
+  z-index: 1;
+}
 
-  .section-title {
-    max-width: 960px;
-    text-wrap: balance;
-    font-size: clamp(3rem, 6.8vw, 6rem);
-    font-weight: 700;
-    line-height: 0.96;
-    letter-spacing: -0.04em;
-  }
+.btn-cut-sm {
+  clip-path: polygon(
+    8px 0%, calc(100% - 8px) 0%, 100% 8px, 100% calc(100% - 8px),
+    calc(100% - 8px) 100%, 8px 100%, 0% calc(100% - 8px), 0% 8px
+  );
+}
 
-  .section-copy {
-    margin-top: 1.75rem;
-    max-width: 760px;
-    text-wrap: balance;
-    color: #62666b;
-    font-size: clamp(1.1rem, 1.4vw, 1.45rem);
-    line-height: 1.75;
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
   }
-
-  .contact-scene {
-    position: relative;
-    overflow: hidden;
-    background:
-      radial-gradient(circle at 50% 18%, rgba(205, 252, 86, 0.18), transparent 28rem),
-      linear-gradient(180deg, #ffffff 0%, #f7f8fa 100%);
-  }
-
-  .contact-scene::before {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(circle at 22% 68%, rgba(19, 137, 216, 0.08), transparent 24rem),
-      radial-gradient(circle at 84% 42%, rgba(159, 191, 113, 0.1), transparent 20rem);
-    content: "";
-    pointer-events: none;
-  }
-
-  .glass-nav {
-    border: 1px solid rgba(255, 255, 255, 0.78);
-    background: rgba(255, 255, 255, 0.68);
-  }
-
-  .hero-sky {
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.2) 48%, rgba(255, 255, 255, 0.08) 100%),
-      url("/assets/hero-background.png") center / cover no-repeat;
-  }
-
-  .portrait-frame {
-    position: relative;
-    overflow: hidden;
-    min-height: 100%;
-    border-radius: 28px;
-    background: #ffffff;
-    box-shadow: 0 24px 70px rgba(20, 32, 44, 0.12);
-  }
-
-  .portrait-frame::after {
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.62);
-    content: "";
-    pointer-events: none;
-  }
-
-  .portrait-frame img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 50% 36%;
-    user-select: none;
-  }
-
-  .map-pin {
-    position: absolute;
-    display: grid;
-    width: 86px;
-    height: 86px;
-    place-items: center;
-    border: 1px solid rgba(22, 23, 25, 0.1);
-    border-radius: 50% 50% 50% 12px;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 18px 50px rgba(20, 32, 44, 0.1);
-    transform: rotate(-45deg);
-    transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 280ms ease, background 280ms ease;
-  }
-
-  .map-pin span {
-    position: relative;
-    z-index: 1;
-    color: #62666b;
-    font-size: 0.9rem;
-    font-weight: 700;
-    transform: rotate(45deg);
-  }
-
-  .map-pin::after {
-    position: absolute;
-    inset: 28px;
-    border-radius: 999px;
-    background: #d8ff64;
-    box-shadow: 0 0 0 8px rgba(216, 255, 100, 0.2);
-    content: "";
-    opacity: 0.56;
-    transition: opacity 240ms ease, transform 240ms ease;
-  }
-
-  .map-pin:hover,
-  .map-pin.is-active {
-    background: rgba(205, 252, 86, 1);
-    box-shadow: 0 30px 90px rgba(20, 32, 44, 0.16);
-    transform: rotate(-45deg) translateY(-10px) scale(1.04);
-  }
-
-  .map-pin:hover::after,
-  .map-pin.is-active::after {
+  to {
     opacity: 1;
-    transform: scale(1.22);
-  }
-
-  .map-note {
-    position: absolute;
-    max-width: 11rem;
-    padding: 0.55rem 0.9rem;
-    border: 1px solid rgba(22, 23, 25, 0.08);
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.76);
-    box-shadow: 0 18px 50px rgba(20, 32, 44, 0.08);
-    color: #62666b;
-    font-size: 0.86rem;
-    font-weight: 700;
-    line-height: 1.25;
-    text-align: center;
-    backdrop-filter: blur(16px);
-    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), color 220ms ease, background 220ms ease;
-  }
-
-  .map-note:hover,
-  .map-note.is-active {
-    background: rgba(205, 252, 86, 1);
-    color: #161719;
-    transform: translateY(-5px);
+    transform: translateY(0);
   }
 }
 
-@media (max-width: 1024px) {
-  .content-grid {
-    display: block;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
+  to {
+    opacity: 1;
+  }
+}
+
+.anim-stagger {
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.anim-fade {
+  opacity: 0;
+  animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.immersive-section {
+  position: relative;
+  min-height: 100vh;
+  padding: clamp(6rem, 9vw, 8.5rem) max(20px, calc((100vw - 1520px) / 2));
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 16%, rgba(45, 139, 255, 0.2), transparent 26rem),
+    radial-gradient(circle at 86% 22%, rgba(255, 255, 255, 0.12), transparent 22rem),
+    radial-gradient(circle at 52% 88%, rgba(150, 255, 209, 0.12), transparent 26rem),
+    #000000;
+}
+
+.immersive-section::before {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 76px 76px;
+  content: "";
+  mask-image: linear-gradient(to bottom, transparent, black 16%, black 84%, transparent);
+  pointer-events: none;
+}
+
+.immersive-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+.cut-eyebrow {
+  margin-bottom: 1.1rem;
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+}
+
+.section-title-dark {
+  max-width: 980px;
+  text-wrap: balance;
+  color: white;
+  font-size: clamp(3rem, 6.8vw, 6.2rem);
+  font-weight: 400;
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+}
+
+.glass-panel {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(22px);
+  clip-path: polygon(
+    18px 0%, calc(100% - 18px) 0%, 100% 18px, 100% calc(100% - 18px),
+    calc(100% - 18px) 100%, 18px 100%, 0% calc(100% - 18px), 0% 18px
+  );
 }
 
 @media (max-width: 768px) {
-  .section-shell {
-    padding: 6rem 18px;
+  .immersive-section {
+    padding: 5.5rem 18px;
   }
 
-  .hero-sky {
-    min-height: calc(100svh - 1rem);
-  }
-
-  .portrait-frame {
-    min-height: 540px;
-  }
-
-  .map-pin {
-    width: 68px;
-    height: 68px;
-  }
-
-  .map-pin::after {
-    inset: 22px;
+  .section-title-dark {
+    font-size: clamp(2.7rem, 13vw, 4.2rem);
   }
 }
 
