@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, ChevronDown, Copy, Menu, Star, X } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Copy, Menu, Star, X } from "lucide-react";
 import { contacts, internships, navItems, profile, projects } from "./data/content";
 import { modalMotion } from "./data/motion";
 import "./styles.css";
@@ -15,8 +15,8 @@ function scrollToSection(id) {
 function Navbar() {
   const [open, setOpen] = useState(false);
   const desktopItems = [
-    { label: "关于", id: "about", hasMenu: true },
-    { label: "实习", id: "internship", hasMenu: true },
+    { label: "关于", id: "about" },
+    { label: "实习", id: "internship" },
     { label: "项目", id: "projects" },
     { label: "联系", id: "contact" },
   ];
@@ -32,14 +32,8 @@ function Navbar() {
         {desktopItems.map((item) => (
           <button key={item.id} type="button" onClick={() => scrollToSection(item.id)} className="flex items-center gap-1 text-sm text-gray-700 transition-colors hover:text-black">
             {item.label}
-            {item.hasMenu && <ChevronDown className="h-4 w-4" />}
           </button>
         ))}
-      </div>
-
-      <div className="hidden items-center gap-4 sm:flex">
-        <button type="button" onClick={() => scrollToSection("contact")} className="text-sm text-gray-700 transition-colors hover:text-black">邮箱</button>
-        <button type="button" onClick={() => scrollToSection("projects")} className="rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-gray-800">查看作品</button>
       </div>
 
       <button type="button" onClick={() => setOpen(!open)} className="sm:hidden" aria-label="打开菜单">
@@ -54,10 +48,6 @@ function Navbar() {
                 {item.label}
               </button>
             ))}
-            <div className="grid gap-3 border-t border-gray-200 pt-4">
-              <button type="button" onClick={() => { setOpen(false); scrollToSection("contact"); }} className="text-left text-sm text-gray-700">邮箱</button>
-              <button type="button" onClick={() => { setOpen(false); scrollToSection("projects"); }} className="w-full rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white">查看作品</button>
-            </div>
           </div>
         </div>
       )}
@@ -77,17 +67,13 @@ function Hero() {
       <div className="relative z-20 mx-auto max-w-7xl px-4 pb-16 pt-6 text-center sm:px-6 sm:pb-32 sm:pt-12">
         <div className="mb-5 inline-flex items-center gap-2 sm:mb-8 animate-fade-in-up" style={{ animationDelay: "0.2s", opacity: 0 }}>
           <span className="flex h-6 w-6 items-center justify-center rounded border border-gray-300"><Star className="h-4 w-4 fill-black text-black" /></span>
-          <span className="text-xs font-medium text-black sm:text-sm">AI Native UX Designer / {profile.school}</span>
+          <span className="text-xs font-medium text-black sm:text-sm">UX Designer / {profile.school}</span>
         </div>
 
         <h1 className="mb-4 text-[38px] font-normal leading-[1.1] tracking-tight text-black sm:mb-5 sm:text-6xl md:text-7xl lg:text-[80px] animate-fade-in-up" style={{ animationDelay: "0.3s", opacity: 0 }}>
-          <span className="sm:hidden">Work Smarter.<br />Design Warmer.<br /><span className="bg-gradient-to-r from-black via-gray-500 to-gray-400 bg-clip-text text-transparent">AI Powers UX.</span></span>
-          <span className="hidden sm:inline">Work Smarter. Design Warmer.<br /><span className="bg-gradient-to-r from-black via-gray-500 to-gray-400 bg-clip-text text-transparent">AI Powers UX.</span></span>
+          <span className="hero-title-kicker">Know About Me</span><br /><span className="hero-title-name">Yilin</span>
         </h1>
 
-        <p className="mx-auto mb-6 max-w-2xl px-2 text-base text-gray-600 sm:mb-8 sm:text-lg md:text-xl animate-fade-in-up" style={{ animationDelay: "0.4s", opacity: 0 }}>
-          交互设计研究生，关注 AI 产品体验、智能体交互、复杂任务流程优化与视觉表达。
-        </p>
 
         <button type="button" onClick={() => scrollToSection("projects")} className="rounded-full bg-black px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-gray-800 sm:px-8 sm:text-base animate-fade-in-up" style={{ animationDelay: "0.5s", opacity: 0 }}>
           查看作品集
@@ -95,15 +81,10 @@ function Hero() {
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 z-20 flex flex-col items-center gap-3 px-4 pb-4 sm:gap-4 sm:pb-8 animate-fade-in-up" style={{ animationDelay: "0.6s", opacity: 0 }}>
-        <div className="rounded-full border border-white/20 bg-white/15 px-3 py-1 text-[10px] font-medium text-white backdrop-blur-md sm:px-3.5 sm:text-xs">
-          Experience across AI Agent, cloud products, AIGC creation, and knowledge systems
-        </div>
         <div className="flex flex-wrap justify-center gap-5 sm:gap-12 md:gap-16">
           {internships.map((item) => (
-            <span key={item.id} className="text-lg italic tracking-tight text-white sm:text-2xl md:text-3xl" style={{ fontFamily: "Georgia, serif" }}>{item.company}</span>
+            <span key={item.id} className="text-lg italic tracking-tight text-white sm:text-2xl md:text-3xl">{item.company}</span>
           ))}
-          <span className="text-lg italic tracking-tight text-white sm:text-2xl md:text-3xl" style={{ fontFamily: "Georgia, serif" }}>AI UX</span>
-          <span className="text-lg italic tracking-tight text-white sm:text-2xl md:text-3xl" style={{ fontFamily: "Georgia, serif" }}>Design</span>
         </div>
       </div>
     </section>
@@ -124,179 +105,238 @@ function Section({ id, eyebrow, title, children }) {
 
 function About() {
   return (
-    <Section id="about" eyebrow="About Me" title={"你好，我是" + profile.name}>
-      <div className="mt-12 grid gap-6 lg:grid-cols-[0.82fr_1.18fr]">
-        <article className="overflow-hidden rounded-[32px] border border-gray-200 bg-gray-50"><img src="/assets/yilin-portrait.jpg" alt="蔡艺琳个人照片" className="h-full min-h-[520px] w-full object-cover object-[50%_36%]" /></article>
-        <div className="grid content-center gap-4">
-          <div className="rounded-[32px] border border-gray-200 bg-white p-6 sm:p-8"><p className="text-lg leading-9 text-gray-600">一名交互设计方向的研究生，关注 AI 产品体验、智能体交互、复杂任务流程优化与视觉表达，目前正在探索如何让 AI 产品更自然、可信。</p></div>
-          <div className="grid gap-4 sm:grid-cols-2">{[["学校", profile.school], ["专业", profile.major], ["邮箱", profile.email], ["电话", profile.phone]].map(([label, value]) => <div key={label} className="rounded-3xl border border-gray-200 bg-white p-5"><p className="text-xs font-medium uppercase tracking-[0.18em] text-gray-400">{label}</p><p className="mt-3 break-words text-base font-semibold text-black">{value}</p></div>)}</div>
-          <div className="rounded-[32px] border border-gray-200 bg-white p-6"><p className="mb-5 text-xs font-medium uppercase tracking-[0.18em] text-gray-400">个人优势</p><ul className="grid gap-4 text-sm leading-7 text-gray-600 md:text-base">{profile.advantages.map((item) => <li key={item} className="grid grid-cols-[10px_1fr] gap-3"><span className="mt-3 h-2 w-2 rounded-full bg-black" /><span>{item}</span></li>)}</ul></div>
+    <section id="about" className="minimal-section">
+      <div className="mx-auto w-full max-w-7xl">
+        <div className="about-layout grid gap-6 lg:grid-cols-[0.82fr_1.18fr]">
+          <article className="overflow-hidden rounded-[32px] border border-gray-200 bg-gray-50"><img src="/assets/yilin-portrait.jpg" alt="蔡艺琳个人照片" className="h-full min-h-[520px] w-full object-cover object-[50%_36%]" /></article>
+          <div className="grid content-center gap-4">
+            <div className="about-copy-heading">
+              <p className="minimal-eyebrow">About Me</p>
+              <h2 className="minimal-heading">你好，我是{profile.name}</h2>
+            </div>
+            <div className="about-intro-copy"><p className="text-lg leading-9 text-gray-600">一名交互设计方向的研究生，关注 AI 产品体验、智能体交互、复杂任务流程优化与视觉表达，目前正在探索如何让 AI 产品更自然、可信。</p></div>
+            <div className="grid gap-4 sm:grid-cols-2">{[["学校", profile.school], ["专业", profile.major], ["邮箱", profile.email], ["电话", profile.phone]].map(([label, value]) => <div key={label} className="rounded-3xl border border-gray-200 bg-white p-5"><p className="text-xs font-medium uppercase tracking-[0.18em] text-gray-400">{label}</p><p className="mt-3 break-words text-base font-semibold text-black">{value}</p></div>)}</div>
+            <div className="rounded-[32px] border border-gray-200 bg-white p-6"><p className="mb-5 text-xs font-medium uppercase tracking-[0.18em] text-gray-400">个人优势</p><ul className="grid gap-4 text-sm leading-7 text-gray-600 md:text-base">{profile.advantages.map((item) => <li key={item} className="grid grid-cols-[10px_1fr] gap-3"><span className="mt-3 h-2 w-2 rounded-full bg-black" /><span>{item}</span></li>)}</ul></div>
+          </div>
         </div>
       </div>
-    </Section>
+    </section>
   );
 }
 
 function Internship() {
-  const [active, setActive] = useState(internships[0].id);
-  const activeItem = internships.find((item) => item.id === active) || internships[0];
+  const [activeIndex, setActiveIndex] = useState(1);
+  const activeItem = internships[activeIndex] || internships[0];
+
   return (
-    <Section id="internship" eyebrow="Internship Map" title="实习成长地图">
-      <div className="mt-12 grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
-        <div className="grid gap-3 rounded-[32px] border border-gray-200 bg-gray-50 p-4">{internships.map((item, index) => <button type="button" key={item.id} onClick={() => setActive(item.id)} onMouseEnter={() => setActive(item.id)} className={("flex items-center justify-between rounded-3xl p-5 text-left transition-colors " + (active === item.id ? "bg-black text-white" : "bg-white text-black hover:bg-gray-100"))}><span><span className="block text-xs opacity-50">0{index + 1}</span><span className="mt-2 block text-2xl font-semibold tracking-tight">{item.company}</span><span className="mt-2 block text-sm opacity-60">{item.date} / {item.location}</span></span><ChevronDown className="h-5 w-5 -rotate-90" /></button>)}</div>
-        <article className="rounded-[32px] border border-gray-200 bg-white p-6 md:p-8"><p className="text-sm font-medium text-gray-500">{activeItem.role}</p><h3 className="mt-3 text-4xl font-semibold leading-none tracking-tight text-black md:text-6xl">{activeItem.company}</h3><p className="mt-6 max-w-3xl text-base leading-8 text-gray-600">{activeItem.detail}</p><div className="mt-8 grid gap-5">{(activeItem.detailSections || []).map((section) => <div key={section.title} className="border-t border-gray-200 pt-5"><h4 className="text-xl font-semibold leading-snug text-black">{section.title}</h4><p className="mt-3 text-sm leading-7 text-gray-600">{section.background}</p></div>)}</div></article>
+    <section id="internship" className="internship-timeline-section">
+      <div className="internship-timeline-sticky">
+        <div className="internship-timeline-shell">
+          <div className="internship-timeline-heading">
+            <p className="minimal-eyebrow">Experience Timeline</p>
+            <h2>成长经历</h2>
+          </div>
+
+          <div className="internship-timeline-layout">
+            <aside className="internship-timeline-list" aria-label="成长经历时间轴">
+              <div className="internship-timeline-line" aria-hidden="true" />
+              {internships.map((item, index) => {
+                const isActive = activeIndex === index;
+                return (
+                  <button
+                    type="button"
+                    key={item.id}
+                    onClick={() => setActiveIndex(index)}
+                    className={"internship-timeline-item " + (isActive ? "is-active" : "")}
+                    aria-current={isActive ? "step" : undefined}
+                  >
+                    <span className="internship-timeline-dot" aria-hidden="true" />
+                    <span className="internship-timeline-content">
+                      <span className="internship-timeline-date">{item.date}</span>
+                      <span className="internship-timeline-company">{item.company}</span>
+                      <span className="internship-timeline-role">{item.role}</span>
+                    </span>
+                  </button>
+                );
+              })}
+            </aside>
+
+            <article className="internship-detail-panel internship-timeline-detail">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeItem.id}
+                  initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                >
+                  <p className="text-sm font-medium text-gray-500">{activeItem.role}</p>
+                  <h3 className="mt-3 text-5xl font-semibold leading-none tracking-tight text-black md:text-6xl">
+                    {activeItem.company}
+                  </h3>
+                  <div className="mt-5 flex flex-wrap gap-2 text-sm font-medium text-gray-500">
+                    <span className="rounded-full bg-gray-100 px-3 py-1">{activeItem.date}</span>
+                    <span className="rounded-full bg-gray-100 px-3 py-1">{activeItem.location}</span>
+                  </div>
+                  <p className="mt-7 max-w-3xl text-base leading-8 text-gray-600">{activeItem.detail}</p>
+                  <div className="mt-8 grid gap-5">
+                    {(activeItem.detailSections || []).map((section) => (
+                      <section key={section.title} className="internship-detail-item">
+                        <h4>{section.title}</h4>
+                        <p>{section.background}</p>
+                        {section.responsibilities?.length ? (
+                          <div className="internship-responsibilities">
+                            <p className="internship-responsibilities-label">工作职责</p>
+                            <ol>
+                              {section.responsibilities.map((responsibility) => (
+                                <li key={responsibility}>{responsibility}</li>
+                              ))}
+                            </ol>
+                          </div>
+                        ) : null}
+                      </section>
+                    ))}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </article>
+          </div>
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }
 
 function Projects({ onOpenProject }) {
-  const [activeProjectId, setActiveProjectId] = useState(projects[0]?.id);
-  const [revealedProjects, setRevealedProjects] = useState(() => new Set([projects[0]?.id]));
-  const cardRefs = useRef({});
+  const [activeIndex, setActiveIndex] = useState(1);
+  const trackRef = useRef(null);
+  const frameRef = useRef(null);
+  const projectSlots = Array.from({ length: 5 }, (_, index) => {
+    const project = projects[index];
+    if (project) return { ...project, placeholder: false };
+    const fallback = projects[index % Math.max(projects.length, 1)];
+    return {
+      id: "placeholder-" + index,
+      title: "预留项目 " + String(index + 1).padStart(2, "0"),
+      category: "Coming Soon",
+      description: "为后续作品预留展示位置。",
+      tags: ["Reserved"],
+      image: fallback?.image || "/assets/project-01/project-01-01.png",
+      detailImages: [],
+      placeholder: true,
+    };
+  });
 
   useEffect(() => {
-    const activeObserver = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible?.target?.dataset.projectId) {
-          setActiveProjectId(visible.target.dataset.projectId);
+    const track = trackRef.current;
+    if (!track) return undefined;
+
+    const syncActiveCard = () => {
+      const cards = Array.from(track.querySelectorAll(".project-gallery-card"));
+      const trackBox = track.getBoundingClientRect();
+      const trackCenter = trackBox.left + trackBox.width / 2;
+      let nextIndex = 0;
+      let nearestDistance = Number.POSITIVE_INFINITY;
+
+      cards.forEach((card, index) => {
+        const cardBox = card.getBoundingClientRect();
+        const cardCenter = cardBox.left + cardBox.width / 2;
+        const distance = Math.abs(trackCenter - cardCenter);
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nextIndex = index;
         }
-      },
-      { threshold: [0.45, 0.6, 0.75], rootMargin: "-18% 0px -22% 0px" },
-    );
+      });
 
-    const revealObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.target.dataset.projectId) {
-            setRevealedProjects((current) => new Set([...current, entry.target.dataset.projectId]));
-          }
-        });
-      },
-      { threshold: 0.15 },
-    );
+      setActiveIndex((currentIndex) => (currentIndex === nextIndex ? currentIndex : nextIndex));
+    };
 
-    Object.values(cardRefs.current).forEach((node) => {
-      if (node) {
-        activeObserver.observe(node);
-        revealObserver.observe(node);
-      }
-    });
+    const requestSync = () => {
+      if (frameRef.current) cancelAnimationFrame(frameRef.current);
+      frameRef.current = requestAnimationFrame(syncActiveCard);
+    };
+
+    const initialCard = track.querySelectorAll(".project-gallery-card")[1];
+    if (initialCard) {
+      track.scrollLeft = initialCard.offsetLeft - (track.clientWidth - initialCard.clientWidth) / 2;
+    }
+    requestSync();
+    track.addEventListener("scroll", requestSync, { passive: true });
+    window.addEventListener("resize", requestSync);
 
     return () => {
-      activeObserver.disconnect();
-      revealObserver.disconnect();
+      if (frameRef.current) cancelAnimationFrame(frameRef.current);
+      track.removeEventListener("scroll", requestSync);
+      window.removeEventListener("resize", requestSync);
     };
   }, []);
 
-  function scrollToProject(projectId) {
-    cardRefs.current[projectId]?.scrollIntoView({ behavior: "smooth", block: "center" });
-  }
+  const focusProjectCard = (index) => {
+    const nextIndex = Math.max(0, Math.min(projectSlots.length - 1, index));
+    const card = trackRef.current?.querySelectorAll(".project-gallery-card")[nextIndex];
+    card?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+  };
+
+  const handleGalleryKeyDown = (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    event.preventDefault();
+    focusProjectCard(activeIndex + (event.key === "ArrowRight" ? 1 : -1));
+  };
+
+  const goToPreviousProject = () => focusProjectCard(activeIndex - 1);
+  const goToNextProject = () => focusProjectCard(activeIndex + 1);
 
   return (
-    <section id="projects" className="project-flow-section">
-      <div className="grid gap-12 lg:grid-cols-[400px_1fr] lg:gap-24 xl:grid-cols-[460px_1fr] xl:gap-40">
-        <aside className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:justify-between lg:py-32">
+    <section id="projects" className="project-gallery-section">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-8">
+        <div className="project-gallery-header flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div>
             <p className="minimal-eyebrow text-white/50">Selected Works</p>
-            <h2 className="mt-5 max-w-md text-4xl font-normal leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[56px]">
-              项目目录与滚动展示
+            <h2 className="mt-5 text-5xl font-normal leading-[0.98] tracking-tight text-white sm:text-6xl lg:text-[86px]">
+              作品展示
             </h2>
-            <p className="mt-6 max-w-sm text-sm font-medium leading-7 text-white/55">
-              左侧目录跟随右侧项目卡片滚动高亮；点击目录项可以直接定位到对应项目。
-            </p>
-
-            <div className="mt-10 grid gap-3 lg:mt-14">
-              {projects.map((project, index) => {
-                const isActive = activeProjectId === project.id;
-                return (
-                  <button
-                    type="button"
-                    key={project.id}
-                    onClick={() => scrollToProject(project.id)}
-                    className={("rounded-3xl px-5 py-4 text-left transition-colors " + (isActive ? "bg-white text-black" : "bg-black/20 text-white/45 hover:bg-white/10 hover:text-white"))}
-                  >
-                    <span className="block text-xs opacity-50">0{index + 1}</span>
-                    <span className="mt-2 block text-xl font-medium leading-tight tracking-tight">{project.title}</span>
-                    <span className="mt-2 block text-sm opacity-60">{project.category}</span>
-                  </button>
-                );
-              })}
-            </div>
           </div>
+        </div>
 
-          <div className="mt-10 hidden rounded-3xl bg-black/20 p-5 text-sm font-medium leading-6 text-white/55 backdrop-blur-sm lg:block">
-            AI Agent、AI 找房、音乐 App 视觉定义。每张卡片保留进入完整项目详情的入口。
-          </div>
-        </aside>
-
-        <div className="grid gap-10 lg:gap-20">
-          {projects.map((project) => {
-            const isRevealed = revealedProjects.has(project.id);
+        <div className="project-gallery-stage">
+          <div ref={trackRef} className="project-gallery-track" tabIndex={0} onKeyDown={handleGalleryKeyDown} aria-label="作品横向画廊">
+          {projectSlots.map((project, index) => {
+            const isActive = activeIndex === index;
             return (
-              <article
+              <button
+                type="button"
                 key={project.id}
-                ref={(node) => {
-                  cardRefs.current[project.id] = node;
+                onClick={() => {
+                  if (!isActive) {
+                    focusProjectCard(index);
+                    return;
+                  }
+                  if (!project.placeholder) onOpenProject(project);
                 }}
-                data-project-id={project.id}
-                className={("project-flow-card " + (isRevealed ? "is-revealed" : ""))}
+                aria-current={isActive ? "true" : undefined}
+                className={"project-gallery-card " + (project.placeholder ? "is-placeholder " : "") + (isActive ? "is-active" : "")}
               >
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <p className="text-sm font-medium text-white/50">{project.category}</p>
-                    <h3 className="mt-3 text-3xl font-medium leading-tight tracking-tight text-white md:text-5xl">
-                      {project.title}
-                    </h3>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => onOpenProject(project)}
-                    className="hidden shrink-0 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-black transition-colors hover:bg-white/90 sm:inline-flex"
-                  >
-                    查看详情
-                  </button>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => onOpenProject(project)}
-                  className="mt-7 block w-full overflow-hidden rounded-[28px] bg-black/30 text-left"
-                >
-                  <img
-                    src={project.image}
-                    alt={project.title + "项目封面"}
-                    className="aspect-video h-full w-full object-cover transition duration-700 hover:scale-[1.03]"
-                  />
-                </button>
-
-                <p className="mt-7 max-w-3xl text-sm font-medium leading-7 text-white/60 md:text-base md:leading-8">
-                  {project.description && project.description !== "占位"
-                    ? project.description
-                    : "围绕真实任务场景梳理用户路径、交互结构与视觉表达，通过原型和设计方案推动产品体验更清晰、更自然。"}
-                </p>
-
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span key={tag} className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium text-white/65">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => onOpenProject(project)}
-                  className="mt-8 inline-flex rounded-full bg-white px-6 py-3 text-sm font-medium text-black transition-colors hover:bg-white/90 sm:hidden"
-                >
-                  查看详情
-                </button>
-              </article>
+                <span className="project-gallery-cover">
+                  <img src={project.image} alt={project.title + "项目封面"} />
+                </span>
+                <span className="project-gallery-card-body">
+                  <span className="project-gallery-title-row">
+                    <span className="project-gallery-card-title">{project.title}</span>
+                    <span className="project-gallery-personal-tag">个人</span>
+                  </span>
+                </span>
+              </button>
             );
           })}
+          </div>
+          <div className="project-gallery-controls" aria-label="作品切换">
+            <button type="button" onClick={goToPreviousProject} disabled={activeIndex === 0} aria-label="上一个作品">
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button type="button" onClick={goToNextProject} disabled={activeIndex === projectSlots.length - 1} aria-label="下一个作品">
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -305,10 +345,46 @@ function Projects({ onOpenProject }) {
 
 function Contact({ onCopy }) {
   return (
-    <Section id="contact" eyebrow="Contact" title="Beyond Design">
-      <div className="mt-12 grid gap-6 lg:grid-cols-[1fr_1.1fr]"><div className="flex flex-col justify-between rounded-[32px] bg-black p-8 text-white sm:p-10"><p className="text-balance text-2xl font-normal leading-snug tracking-tight md:text-4xl">希望创造自然、可信、富有温度的产品体验，让复杂的技术变得简单，让智能真正服务于人。</p><a href={"mailto:" + profile.email} className="mt-10 inline-flex w-full max-w-[220px] items-center justify-center rounded-full bg-white py-3 text-sm font-medium text-black">聊一聊</a></div><div className="grid gap-3 sm:grid-cols-2">{contacts.map((item) => <button type="button" key={item.label} onClick={() => onCopy(item.value)} className="rounded-3xl border border-gray-200 bg-white p-6 text-left transition-colors hover:bg-gray-50"><span className="flex items-center justify-between text-sm text-gray-500">{item.label}<Copy size={15} /></span><strong className="mt-6 block break-words text-xl font-semibold tracking-tight text-black">{item.value}</strong></button>)}</div></div>
-      <footer className="mt-20 flex flex-col justify-between gap-2 border-t border-gray-200 pt-6 text-sm text-gray-500 sm:flex-row"><p>© 2026 Yilin Cai.</p><p>Designed with care.</p></footer>
-    </Section>
+    <section id="contact" className="minimal-section flex min-h-screen items-center">
+      <div className="mx-auto flex w-full max-w-5xl flex-col items-center text-center">
+        <p className="minimal-eyebrow">Contact</p>
+        <h2 className="minimal-heading mx-auto mt-4 max-w-4xl text-center">Beyond Design</h2>
+        <p className="mx-auto mt-8 max-w-3xl text-balance text-xl font-normal leading-9 text-gray-600 md:text-3xl md:leading-[1.35]">
+          希望创造自然、可信、富有温度的产品体验，让复杂的技术变得简单，让智能真正服务于人。
+        </p>
+        <a
+          href={"mailto:" + profile.email}
+          className="mt-10 inline-flex items-center justify-center rounded-full bg-black px-8 py-3.5 text-sm font-medium text-white transition-colors hover:bg-gray-800 md:text-base"
+        >
+          聊一聊
+        </a>
+
+        <div className="mt-14 grid w-full gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {contacts.map((item) => (
+            <button
+              type="button"
+              key={item.label}
+              onClick={() => onCopy(item.value)}
+              className="rounded-3xl border border-gray-200 bg-white p-5 text-center transition-colors hover:bg-gray-50"
+            >
+              <span className="inline-flex items-center justify-center gap-2 text-sm text-gray-500">
+                {item.label}
+                <Copy size={15} />
+              </span>
+              <strong className="mt-5 block break-words text-base font-semibold tracking-tight text-black lg:text-lg">
+                {item.value}
+              </strong>
+            </button>
+          ))}
+        </div>
+
+        <footer className="mt-16 flex w-full flex-col items-center justify-center gap-2 border-t border-gray-200 pt-6 text-sm text-gray-500 sm:flex-row sm:gap-4">
+          <p>© 2026 Yilin Cai.</p>
+          <span className="hidden h-1 w-1 rounded-full bg-gray-300 sm:block" />
+          <p>Designed with care.</p>
+        </footer>
+      </div>
+    </section>
   );
 }
 
