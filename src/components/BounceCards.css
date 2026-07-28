@@ -1,0 +1,145 @@
+.bounce-cards-container {
+  position: relative;
+  display: grid;
+  max-width: min(100%, 900px);
+  place-items: center;
+  isolation: isolate;
+}
+
+.bounce-card {
+  position: absolute;
+  display: grid;
+  width: clamp(260px, 32vw, 380px);
+  overflow: hidden;
+  border: 0;
+  border-radius: 16px;
+  background: #ffffff;
+  padding: 10px;
+  box-shadow: 0 8px 18px rgba(21, 35, 58, 0.1);
+  cursor: pointer;
+  transform-origin: center center;
+  transition:
+    box-shadow 220ms ease,
+    translate 220ms ease,
+    opacity 220ms ease;
+  will-change: transform;
+}
+
+.bounce-card:hover,
+.bounce-card:focus-visible,
+.bounce-card.is-active {
+  box-shadow: 0 12px 28px rgba(21, 35, 58, 0.14);
+}
+
+.bounce-card:focus-visible {
+  outline: 2px solid rgba(47, 139, 255, 0.72);
+  outline-offset: 5px;
+}
+
+.bounce-card-cover {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #f4f8fb;
+}
+
+.bounce-card-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: clamp(170px, 20vw, 230px);
+  object-fit: contain;
+}
+
+.bounce-card-body {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 4px 4px;
+}
+
+.bounce-card-title {
+  min-width: 0;
+  overflow: hidden;
+  color: #161719;
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bounce-card-tag {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  border-radius: 999px;
+  background: #d8ff64;
+  padding: 0 12px;
+  color: #161719;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+@media (max-width: 760px) {
+  .bounce-cards-container {
+    height: 360px !important;
+    transform: scale(0.86);
+    transform-origin: center center;
+  }
+
+  .bounce-card {
+    width: min(76vw, 300px);
+    padding: 8px;
+  }
+
+  .bounce-card-0 {
+    transform: rotate(6deg) translate(-84px, 12px);
+  }
+
+  .bounce-card-1 {
+    transform: rotate(-2deg) translate(0, -10px);
+  }
+
+  .bounce-card-2 {
+    transform: rotate(-6deg) translate(84px, 12px);
+  }
+}
+
+@media (max-width: 520px) {
+  .bounce-cards-container {
+    height: 340px !important;
+    transform: scale(0.78);
+  }
+
+  .bounce-card-0 {
+    transform: rotate(5deg) translate(-76px, 10px);
+  }
+
+  .bounce-card-2 {
+    transform: rotate(-5deg) translate(76px, 10px);
+  }
+
+  .bounce-card-body {
+    padding-top: 13px;
+  }
+
+  .bounce-card-title {
+    font-size: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bounce-card {
+    transition: none;
+    will-change: auto;
+  }
+}
