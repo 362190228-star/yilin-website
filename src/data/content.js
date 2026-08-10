@@ -152,8 +152,8 @@ export const projects = [
     id: "autoglm",
     title: "AutoGLM 体验升级",
     category: "手机 Agent UX",
-    description: "占位",
-    tags: ["占位", "AI Agent", "UX"],
+    description: "围绕上手门槛高、任务易中断、信任感不足，重做移动端与 Web 端的 Agent 交互路径。",
+    tags: ["AI Agent", "UX"],
     image: "/assets/project-01/project-01-01.png",
     detailImages: [
       "/assets/project-01-webp/1.webp",
@@ -196,8 +196,8 @@ export const projects = [
     id: "ziroom",
     title: "自如 AI 找房链路优化",
     category: "AI 找房",
-    description: "占位",
-    tags: ["占位", "Service Flow"],
+    description: "",
+    tags: ["Service Flow"],
     image: "/assets/project-02/project-02-01.png",
     detailImages: [
       "/assets/project-02/project-02-02.webp",
@@ -226,8 +226,8 @@ export const projects = [
     id: "yinlang",
     title: "音浪 APP 视觉定义",
     category: "Music App",
-    description: "占位",
-    tags: ["占位", "Visual"],
+    description: "",
+    tags: ["Visual"],
     image: "/assets/project-03/project-03-01.png",
     detailImages: [
       "/assets/project-03/project-03-02.webp",
@@ -253,8 +253,8 @@ export const projects = [
     id: "jd-cloud-codex-assistant",
     title: "基于Codex的京东云 AI 助手组件化建设",
     category: "AI 助手组件化",
-    description: "占位",
-    tags: ["占位", "Codex", "AI 助手"],
+    description: "把 AI 助手的对话结构、反馈方式与组件样式沉淀成可复用的设计规范。",
+    tags: ["Codex", "AI 助手"],
     image: "/assets/project-04/0.jpg",
     detailImages: [
       "/assets/project-04/0.jpg",
@@ -273,6 +273,50 @@ export const projects = [
       "/assets/project-04/13.jpg",
     ],
     size: "",
+  },
+];
+
+/*
+  个人生活页的照片位。
+  想换成真实照片时：把图片放进 public/assets/life/，然后把对应的 src 填成 slot 的值即可。
+  src 为空字符串时，页面会自动渲染成一个待贴照片的空相框。
+*/
+export const lifeMoments = [
+  {
+    id: "camera",
+    src: "",
+    slot: "/assets/life/life-01.jpg",
+    caption: "摄影",
+    note: "街头、光线和一点点运气",
+    tilt: -2.6,
+    span: "tall",
+  },
+  {
+    id: "kitchen",
+    src: "",
+    slot: "/assets/life/life-02.jpg",
+    caption: "做饭",
+    note: "周末最长的一段专注",
+    tilt: 1.8,
+    span: "wide",
+  },
+  {
+    id: "plants",
+    src: "",
+    slot: "/assets/life/life-03.jpg",
+    caption: "养花",
+    note: "阳台上的慢变量",
+    tilt: -1.2,
+    span: "small",
+  },
+  {
+    id: "yoga",
+    src: "",
+    slot: "/assets/life/life-04.jpg",
+    caption: "瑜伽",
+    note: "把身体重新调回节奏",
+    tilt: 2.2,
+    span: "small",
   },
 ];
 
