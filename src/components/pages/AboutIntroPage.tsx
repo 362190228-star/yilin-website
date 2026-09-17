@@ -3,11 +3,12 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { createPortal } from 'react-dom'
 import { PageIntro } from './PageIntro'
 import { Tape } from '../decor/Tape'
+import { asset } from '../../utils/asset'
 
 export function AboutIntroPage() {
   const photos = [
-    { src: '/assets/about/profile.jpg', alt: '蔡艺琳的个人照片，餐桌前的半身照' },
-    { src: '/assets/about/profile-closeup.webp', alt: '蔡艺琳的个人照片，近景肖像' },
+    { src: asset('assets/about/profile.jpg'), alt: '蔡艺琳的个人照片，餐桌前的半身照' },
+    { src: asset('assets/about/profile-closeup.webp'), alt: '蔡艺琳的个人照片，近景肖像' },
   ]
   const photoRef = useRef<HTMLDivElement>(null)
   const [photoBounds, setPhotoBounds] = useState({ width: 0, height: 0 })

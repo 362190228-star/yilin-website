@@ -3,11 +3,12 @@ import { motion } from 'framer-motion'
 import type { PanInfo } from 'framer-motion'
 import { hobbies } from '../../data/hobbies'
 import { PageNumber } from '../PageNumber'
+import { asset } from '../../utils/asset'
 
 const hobbyCovers: Record<string, string> = {
-  photography: '/assets/hobbies/covers/摄影.png',
-  travel: '/assets/hobbies/covers/旅行.png',
-  food: '/assets/hobbies/covers/美食.png',
+  photography: asset('assets/hobbies/covers/摄影.png'),
+  travel: asset('assets/hobbies/covers/旅行.png'),
+  food: asset('assets/hobbies/covers/美食.png'),
 }
 
 export function HobbyIndexPage({ activeId, onSelect }: { activeId: string; onSelect: (id: string) => void }) {

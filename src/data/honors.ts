@@ -1,4 +1,5 @@
 import type { Honor } from '../types'
+import { asset } from '../utils/asset'
 
 const honorFiles = [
   '152f6d8eb3e18091338636ea3b853f41',
@@ -23,5 +24,5 @@ export const honors: Honor[] = honorFiles.map((file, index) => ({
   name: `个人荣誉 ${index + 1}`,
   date: '',
   issuer: '',
-  image: `/assets/honors/${file}.webp`,
+  image: asset(`assets/honors/${file}.webp`),
 }))

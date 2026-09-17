@@ -1,11 +1,12 @@
 import type { Experience } from '../../types'
 import { experiences } from '../../data/experiences'
 import { PageNumber } from '../PageNumber'
+import { asset } from '../../utils/asset'
 
 const stampImages: Record<string, { empty: string; stamped: string; seal: string }> = {
-  jd: { empty: '/assets/experience-stamps/jd-empty.png', stamped: '/assets/experience-stamps/jd-stamped.png', seal: '/assets/experience-stamps/jd-seal.png' },
-  zhipu: { empty: '/assets/experience-stamps/zhipu-empty.png', stamped: '/assets/experience-stamps/zhipu-stamped.png', seal: '/assets/experience-stamps/zhipu-seal.png' },
-  iflytek: { empty: '/assets/experience-stamps/iflytek-empty.png', stamped: '/assets/experience-stamps/iflytek-stamped.png', seal: '/assets/experience-stamps/iflytek-seal.png' },
+  jd: { empty: asset('assets/experience-stamps/jd-empty.png'), stamped: asset('assets/experience-stamps/jd-stamped.png'), seal: asset('assets/experience-stamps/jd-seal.png') },
+  zhipu: { empty: asset('assets/experience-stamps/zhipu-empty.png'), stamped: asset('assets/experience-stamps/zhipu-stamped.png'), seal: asset('assets/experience-stamps/zhipu-seal.png') },
+  iflytek: { empty: asset('assets/experience-stamps/iflytek-empty.png'), stamped: asset('assets/experience-stamps/iflytek-stamped.png'), seal: asset('assets/experience-stamps/iflytek-seal.png') },
 }
 
 export function ExperienceIndexPage({ activeId, stampedIds, stampingId, onSelect }: { activeId: string; stampedIds: string[]; stampingId: string; onSelect: (id: string) => void }) {
