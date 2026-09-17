@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560">
+  <rect width="800" height="560" fill="#f5efe2"/>
+  <rect x="38" y="38" width="724" height="484" rx="8" fill="none" stroke="#b69a69" stroke-width="5"/>
+  <rect x="54" y="54" width="692" height="452" rx="4" fill="none" stroke="#d4c29d" stroke-width="2"/>
+  <circle cx="400" cy="184" r="56" fill="#c98f72" opacity=".78"/>
+  <path d="M378 236l-20 96 42-22 42 22-20-96" fill="#c98f72" opacity=".78"/>
+  <text x="400" y="382" text-anchor="middle" fill="#645846" font-family="serif" font-size="42">奖状 / 证书</text>
+  <text x="400" y="430" text-anchor="middle" fill="#9a8b76" font-family="sans-serif" font-size="21">AWARD PLACEHOLDER</text>
+</svg>

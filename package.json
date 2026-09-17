@@ -1,35 +1,30 @@
 {
-  "name": "yilin-cai-ai-native-portfolio",
-  "version": "1.0.0",
+  "name": "diary-portfolio",
   "private": true,
-  "description": "AI Native UX Designer portfolio website for Yilin Cai.",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host 0.0.0.0",
-    "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0"
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "test": "node --test tests/book-swipe.test.mjs"
   },
   "dependencies": {
-    "@vitejs/plugin-react": "^4.3.4",
-    "framer-motion": "^11.15.0",
-    "gsap": "^3.15.0",
-    "lucide-react": "^0.468.0",
-    "vite": "^6.0.5",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "framer-motion": "^13.2.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.17"
-  },
-  "keywords": [
-    "portfolio",
-    "ux-design",
-    "ai-native",
-    "framer-motion",
-    "tailwind"
-  ],
-  "author": "Yilin Cai",
-  "license": "UNLICENSED"
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "autoprefixer": "^10.6.0",
+    "oxlint": "^1.81.0",
+    "postcss": "^8.5.28",
+    "tailwindcss": "^3.4.19",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0"
+  }
 }
