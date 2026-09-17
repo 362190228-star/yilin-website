@@ -355,7 +355,7 @@ li {
 .work-modal { max-width: 1120px; }
 .work-modal__content { width: min(100%, 880px); margin: 0 auto; }
 .work-modal__images { display: flex; flex-direction: column; gap: 28px; }
-.work-modal__figure { width: 100%; margin: 0; }
+.work-modal__figure { width: 100%; min-height: clamp(220px, 50vw, 495px); margin: 0; background: #eee7d8; }
 .work-modal__figure img { display: block; width: 100%; height: auto; background: #eee7d8; border: 1px solid rgba(92,83,68,.16); box-shadow: 0 5px 14px rgba(51,44,34,.12); }
 .hobby-index { position: relative; flex: 1; min-height: 370px; }
 .hobby-chip { position: absolute; width: 203px; padding: 0; display: block; color: #5c5344; background: transparent; cursor: grab; touch-action: none; }

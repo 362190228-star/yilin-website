@@ -48,7 +48,12 @@ function WorkModalContent({ work, onClose }: { work: Work; onClose: () => void }
         <div className="work-modal__images">
           {work.images.map((img, index) => (
             <figure key={`${img.src}-${index}`} className="work-modal__figure">
-              <img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
+              <img
+                src={img.src}
+                alt={img.alt}
+                loading={index < 2 ? 'eager' : 'lazy'}
+                decoding="async"
+              />
             </figure>
           ))}
         </div>
